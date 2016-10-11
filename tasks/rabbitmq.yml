@@ -1,17 +1,17 @@
 ---
 # RabbitMQ user and vhost management
 
-- name: Ensure the users is removed
+- name: Ensure the users are removed
   rabbitmq_user: user="{{ item }}" state=absent
-  with_items: rabbitmq_users_removed
+  with_items: "{{ rabbitmq_users_removed }}"
   tags: [configuration,rabbitmq]
 
-- name: Ensure the vhosts is present
+- name: Ensure the vhosts are present
   rabbitmq_vhost: name="{{ item }}"
-  with_items: rabbitmq_vhosts
+  with_items: "{{ rabbitmq_vhosts }}"
   tags: [configuration,rabbitmq]
 
-- name: Ensure the users is present
+- name: Ensure the users are present
   rabbitmq_user:
     user: "{{ item.user }}"
     password: "{{ item.password }}"
@@ -20,10 +20,10 @@
     write_priv: "{{ item.write_priv|default('.*') }}"
     vhost: "{{ item.vhost|default('/') }}"
     tags: "{{ item.tags|default('') }}"
-  with_items: rabbitmq_users
+  with_items: "{{ rabbitmq_users }}"
   tags: [configuration,rabbitmq]
 
-- name: ensure the default vhost contains the HA policy
+- name: Ensure the default vhost contains the HA policy
   rabbitmq_policy: name=HA pattern='{{ rabbitmq_ha_pattern }}'
   args:
    tags:
@@ -34,9 +34,8 @@
   file: state=link src=/usr/lib/rabbitmq/bin dest=/usr/lib/rabbitmq/sbin
   tags: [configuration,rabbitmq]
 
-- name: Enable the plugins is installed
+- name: Enable the plugins are installed
   rabbitmq_plugin: names="{{ item }}" state=enabled prefix=/usr/lib/rabbitmq
-  with_items: rabbitmq_plugins
+  with_items: "{{ rabbitmq_plugins }}"
   notify: restart rabbitmq-server
   tags: [configuration,rabbitmq]
-
