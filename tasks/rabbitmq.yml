@@ -35,8 +35,7 @@
   tags: [configuration,rabbitmq]
 
 - name: Enable the plugins is installed
-  rabbitmq_plugin: names="{{ item }}" state=enabled prefix=/usr/lib/rabbitmq
-  with_items: rabbitmq_plugins
+  rabbitmq_plugin: names="{{ rabbitmq_plugins | join(',') }}" state=enabled prefix=/usr/lib/rabbitmq
   notify: restart rabbitmq-server
   tags: [configuration,rabbitmq]
 
