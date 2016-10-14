@@ -1,4 +1,6 @@
 ---
+- meta: flush_handlers
+
 - name: Install management command line tool
   get_url:
     url: http://localhost:15672/cli/rabbitmqadmin
