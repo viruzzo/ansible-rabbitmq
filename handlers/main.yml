@@ -4,12 +4,14 @@
 - name: restart rabbitmq-server
   service: name=rabbitmq-server state=restarted
   tags: rabbitmq
+  become: True
 
 - name: start rabbitmq-server
   service: name=rabbitmq-server state=started
   tags: rabbitmq
+  become: True
 
 - name: stop rabbitmq-server
   service: name=rabbitmq-server state=stopped
   tags: rabbitmq
-
+  become: True
